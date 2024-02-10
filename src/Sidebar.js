@@ -203,7 +203,9 @@ function Sidebar() {
                 color: "white",
               }}
             >
-              {currentUser ? <span>{currentUser.email}</span> : null}
+              {shouldShowTitle && currentUser ? (
+                <span>{currentUser.email}</span>
+              ) : null}
             </div>
           </div>
         </div>
