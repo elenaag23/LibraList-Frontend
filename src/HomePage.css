@@ -101,6 +101,14 @@ a:focus {
     background: #fff;
 }
 
+#sidebar ul li div:hover {
+    color: #7386D5;
+    background: #fff;
+    button{
+        color:#7386D5;
+    }
+}
+
 #sidebar ul li.active>a,
 a[aria-expanded="true"] {
     color: #fff;
@@ -368,5 +376,103 @@ a.article:hover {
     border-radius: 0.9rem;
     padding: 20px;
     width: 850px;
+}
+
+
+.mycontainer{
+    width: 100%;
+}
+
+.mycontent{
+    display: flex;
+    justify-content: center;
+}
+
+.formItem{
+    margin: 32px;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.inputStyle{
+    width: 350px;
+    height: 50px;
+    border-radius: 5px;
+}
+
+.registerComponent{
+    display: inline-grid;
+    background-color: white;
+    margin-top: 170px;
+    padding: 24px;
+    border-radius: 5px;
+}
+
+.loginComponent {
+    display: inline-grid;
+    background-color: #6d7fcc;
+    margin-top: 170px;
+    padding: 24px;
+    border-radius: 5px;
+}
+
+.registerButton{
+    margin-top: 24px;
+    width: 70px;
+    border-radius: 5px;
+    color: white;
+    background-color: #6d7fcc;
+    height: 40px;
+    font-weight: 500;
+}
+
+.registerButton:hover{
+    background-color: white;
+    color:#6d7fcc;
+}
+
+.loginButton {
+    margin-top: 24px;
+    width: 70px;
+    border-radius: 5px;
+    color: #6d7fcc;
+    background-color: white;
+    height: 40px;
+    font-weight: 500;
+}
+
+.loginButton:hover {
+    background-color: #a1acde;
+    color: white;
+}
+
+.logoutButton{
+    background-color: #7386D5;
+    color: white;
+    border: none;
+    font-size: 20px;
+}
+
+.redirectRegister, .redirectLogin{
+    margin-top: 16px;
+}
+
+.redirectRegister a{
+    text-decoration: none;
+    color: #c6cdeb;
+}
+
+.redirectRegister:hover a {
+    text-decoration: none;
+    color:white;
+}
+
+.redirectLogin a {
+    text-decoration: none;
+    color:#7386D5;
+}
+
+.redirectLogin:hover a {
+    text-decoration: none;
+    color: black;
 }
 

@@ -6,6 +6,8 @@ import { themeSettings } from "./theme";
 import Sidebar from "./Sidebar";
 import Library from "./Library";
 import ToRead from "./ToRead";
+import Login from "./Login";
+import Register from "./Register";
 import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -17,6 +19,8 @@ function App() {
           <Route path="/" element={<Sidebar />} />
           <Route path="/library" element={<Library />} />
           <Route path="/toread" element={<ToRead />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </BrowserRouter>
 
