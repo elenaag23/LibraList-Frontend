@@ -57,7 +57,6 @@ a:focus {
     width: 100%;
     align-items: stretch;
     position: fixed;
-    z-index: 1;
     height: 100%;
 }
 
@@ -355,6 +354,19 @@ a.article:hover {
     display: flex;
     justify-content: center;
     margin-top: 35px;
-    
+}
+
+.displayBook{
+    display: flex;
+    justify-content: center;
+    margin-top: 36px;
+}
+
+.book{
+    margin-bottom: 36px;
+    background-color: #d9def2;
+    border-radius: 0.9rem;
+    padding: 20px;
+    width: 850px;
 }
 

@@ -6,61 +6,56 @@ import Sidebar from "./Sidebar";
 function ToRead() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState(null);
+  const [bookData, setBookData] = useState(null);
+  const [search, setSearch] = useState(false);
+
+  const process = (data) => {
+    for (var book of data["items"]) {
+      if (
+        book["volumeInfo"]["language"] == "en" &&
+        book["volumeInfo"]["imageLinks"] != undefined
+      ) {
+        console.log("carte buna: ", book);
+        var title = book["volumeInfo"]["title"];
+        var author = book["volumeInfo"]["authors"][0];
+        var description = book["volumeInfo"]["description"];
+        var cover = book["volumeInfo"]["imageLinks"]["thumbnail"];
+        setBookData({ title, author, description, cover });
+        break;
+      }
+    }
+  };
+
+  const BookComponent = ({ title, author, description, cover }) => {
+    return (
+      <div>
+        <img src={cover} alt="Book Cover" />
+        <div className="book-details" style={{ marginTop: "28px" }}>
+          <h2>{title}</h2>
+          <p style={{ fontSize: "20px", color: "#6d7fcc" }}>Author: {author}</p>
+          <p style={{ fontSize: "20px", fontWeight: 500, color: "#6d7fcc" }}>
+            {description}
+          </p>
+        </div>
+      </div>
+    );
+  };
 
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const processData = (data) => {
-    var book = data["docs"][0];
-    var authName = book["author_name"][0];
-    var bookTitle = book["title"];
-    var isbns = book["isbn"];
-
-    var apiURL = "https://covers.openlibrary.org/b/isbn/9781094015286-M.jpg";
-
-    fetch(apiURL, { redirect: "manual" }).then((response) => {
-      // Check the status code
-      if (response.status >= 200 && response.status < 300) {
-        // Successful response
-        console.log("Initial response status code:", response.status);
-        // Now you can handle the response, including checking for redirects if needed
-      } else if (response.status >= 300 && response.status < 400) {
-        // Redirection response
-        console.log("Redirection status code:", response.status);
-        // Optionally, you can handle redirection here
-      } else {
-        // Error response
-        console.error("Error response status code:", response.status);
-        // Optionally, handle error response
-      }
-    });
-
-    //   .then((data) => {
-    //     //setSearchResults(data);
-    //     console.log(data); // Log the response to see what data is returned
-    //     //processData(data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching data:", error);
-    //   });
-
-    // for(var isbn in isbns)
-    // {
-
-    // }
-  };
-
   const handleSearch = () => {
-    const apiUrl = `https://openlibrary.org/search.json?title=${encodeURIComponent(
+    const apiUrl = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(
       searchTerm
-    )}&rating=asc`;
+    )}`;
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
         setSearchResults(data);
-        console.log(data); // Log the response to see what data is returned
-        processData(data);
+        setSearch(true);
+        console.log("raspuns: ", data); // Log the response to see what data is returned
+        process(data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -69,7 +64,10 @@ function ToRead() {
 
   return (
     <div style={{ width: "100%" }}>
-      {/* <Sidebar /> */}
+      <div style={{ zIndex: "-1" }}>
+        <Sidebar />
+      </div>
+
       <div className="pageTitle">
         <span>ReadList</span>
       </div>
@@ -104,6 +102,21 @@ function ToRead() {
           </div>
         </form>
       </div>
+
+      {search && (
+        <div className="displayBook">
+          <div style={{ width: "70%" }} className="book">
+            {bookData && (
+              <BookComponent
+                title={bookData.title}
+                author={bookData.author}
+                description={bookData.description}
+                cover={bookData.cover}
+              />
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
