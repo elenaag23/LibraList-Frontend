@@ -2,7 +2,7 @@
     DEMO STYLE
 */
 @import "~bootstrap-icons/font/bootstrap-icons.css";
-
+@import "font-awesome/css/font-awesome.min.css";
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 
 body {
@@ -26,7 +26,7 @@ a:focus {
     transition: all 0.3s;
 }
 
-.navbar {
+.mynavbar {
     padding: 15px 10px;
     background: #fff;
     border: none;
@@ -52,10 +52,13 @@ a:focus {
     SIDEBAR STYLE
 ----------------------------------------------------- */
 
-.wrapper {
+.mywrapper {
     display: flex;
     width: 100%;
     align-items: stretch;
+    position: fixed;
+    z-index: 1;
+    height: 100%;
 }
 
 #sidebar {
@@ -90,6 +93,8 @@ a:focus {
     padding: 10px;
     font-size: 1.1em;
     display: block;
+    color: white;
+    text-decoration: none;
 }
 
 #sidebar ul li a:hover {
@@ -150,7 +155,6 @@ a.article:hover {
 
 #content {
     width: 100%;
-    padding: 20px;
     min-height: 100vh;
     transition: all 0.3s;
 }
@@ -248,6 +252,109 @@ a.article:hover {
 }
 
 .fade-transition {
-    opacity: 1;
-    transition: opacity 0.7s ease;
+    transition: opacity 0.7s ease-in;
 }
+
+
+/* App.css */
+/* Global styles */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Change class names to avoid conflicts */
+.myapp-body {
+    font-family: 'Poppins', sans-serif;
+    background: #fafafa;
+    /* Add other global styles here */
+}
+
+/* HomePage.css */
+/* Specific styles for HomePage component */
+.myapp-home-page-container {
+    /* Add styles specific to your home page */
+}
+
+/* Custom Styles */
+.header-title {
+    /* Custom styles for header title */
+    font-weight: bold;
+    font-size: 25px;
+    color: white;
+    transition: opacity 0.7s ease-in-out;
+}
+
+/* Navbar */
+.myapp-navbar {
+    padding: 15px 10px;
+    background: #fff;
+    border: none;
+    border-radius: 0;
+    margin-bottom: 40px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.myheader{
+    width: 100%;
+}
+
+.pageTitle{
+        display: block;
+        width: 100%;
+        height: 50px;
+        margin-top: 120px;
+        font-weight: bold;
+        color: #6d7fcc;
+        font-size: 25px;
+}
+
+#mycell {
+    margin: 16px ;
+    background-color: #F7F8FF;
+    padding: 24px !important;
+    border-radius: 20px;
+}
+
+.bookName{
+    margin-top: 8px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #6d7fcc;
+}
+
+.navbarTitle
+{
+    font-size: 20px;
+    margin-top: 16px;
+    font-weight: bold;
+}
+
+
+#myList li{
+    list-style-type: none ;
+    color: white;
+}
+
+.btn-info{
+    --bs-btn-border-color: white !important;
+}
+
+.searchbtn {
+    background-color: #6d7fcc;
+    color: white;
+    height: 40px;
+    width: 40px;
+    margin-top: 5px;
+    border-radius: 8px;
+}
+
+.searchbtn:hover{
+    color:#6d7fcc;
+    background-color: white;
+}
+
+.mysearchbar{
+    display: flex;
+    justify-content: center;
+    margin-top: 35px;
+    
+}
+
