@@ -16,6 +16,9 @@ You may also see any lint errors in the console.
 
 This is an app to help you track your reading. Search for a book, add it to your library, and feel free to add your thoughts or your favourite quotes in this app. Your comments on books remain private, as only you can see them. They can be stored only if you are a registered user.
 
+![image](https://github.com/elenaag23/LibraList-Frontend/assets/101599503/0da7bf47-6321-481a-ac68-bc4da6c54602)
+
+
 ![image](https://github.com/elenaag23/LibraList-Frontend/assets/101599503/5e4b4d0b-359a-4837-8184-e933fc6d79a6)
 
 
