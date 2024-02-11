@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import "./App.css"; // Assuming this is your custom CSS file
-import "./HomePage.css"; // Assuming this is another custom CSS file
+import "./App.css";
+import "./HomePage.css";
 import Sidebar from "./Sidebar";
-
-import { Menu } from "@mui/icons-material";
-import { getAuth, currentUser, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getDatabase, ref, push, onValue } from "firebase/database";
 import BookComponent from "./BookComponent";
 
@@ -27,10 +25,7 @@ function ToRead() {
         throw new Error("User is not authenticated.");
       }
 
-      // Reference to the user's 'books' node
       const userBooksRef = ref(db, `users/${uid}/books`);
-
-      // Push a new book object to the user's 'books' node
       const newBookRef = push(userBooksRef, {
         title: title,
         author: author,
@@ -74,22 +69,16 @@ function ToRead() {
   };
 
   useEffect(() => {
-    // Listen for authentication state changes
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        // User is signed in
         setCurrentUser(user);
         console.log("current user: ", user);
 
         var uid = user.uid;
-        // Reference to the user's 'books' node
         const userBooksRef = ref(db, `users/${uid}/books`);
-
-        // Fetch user's books from the database
         onValue(userBooksRef, (snapshot) => {
           const booksData = snapshot.val();
           if (booksData) {
-            // Convert the object of books into an array
             const booksArray = Object.keys(booksData).map((key) => ({
               id: key,
               ...booksData[key],
@@ -100,12 +89,9 @@ function ToRead() {
           }
         });
       } else {
-        // No user is signed in
         setCurrentUser(null);
       }
     });
-
-    // Clean up subscription on unmount
     return () => unsubscribe();
   }, [auth]);
 
@@ -122,7 +108,7 @@ function ToRead() {
       .then((data) => {
         setSearchResults(data);
         setSearch(true);
-        console.log("raspuns: ", data); // Log the response to see what data is returned
+        console.log("raspuns: ", data);
         process(data);
       })
       .catch((error) => {
@@ -137,7 +123,7 @@ function ToRead() {
       </div>
 
       <div className="pageTitle">
-        <span>ReadList</span>
+        <span>Find on Bookshelf</span>
       </div>
 
       <div className="mysearchbar">

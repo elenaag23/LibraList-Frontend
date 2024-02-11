@@ -1,46 +1,52 @@
-import logo from "./logo.svg";
 import "./App.css";
-import { useMemo } from "react";
-import { createTheme } from "@mui/material/styles";
-import { themeSettings } from "./theme";
-import Sidebar from "./Sidebar";
 import Library from "./Library";
 import ToRead from "./ToRead";
 import Login from "./Login";
 import Register from "./Register";
-import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import BookDetailsPage from "./BookDetails";
+import React, { useState, useEffect } from "react";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 function App() {
-  const theme = useMemo(() => createTheme(themeSettings(), []));
+  const [user, setUser] = useState(null);
+  const auth = getAuth();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+      setLoading(false);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Sidebar />} />
-          <Route path="/library" element={<Library />} />
+          <Route path="/" element={<Library />} />
+          <Route path="/library" element={user ? <Library /> : <Login />} />
           <Route path="/toread" element={<ToRead />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route
+            path="/book-details/:bookId"
+            element={user ? <BookDetailsPage /> : <Login />}
+          />
         </Routes>
       </BrowserRouter>
-
-      {/* <Sidebar /> */}
-      {/* <ThemeProvider theme={theme}>
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            //className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </ThemeProvider> */}
     </div>
   );
 }

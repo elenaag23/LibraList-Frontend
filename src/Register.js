@@ -16,8 +16,6 @@ function Register() {
         email,
         password
       );
-      console.log("User registered successfully:", userCredential.user);
-      // Add your logic for successful registration (e.g., redirect)
       window.location.href = "/login";
     } catch (error) {
       setError(error.message);

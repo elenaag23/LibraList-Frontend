@@ -17,8 +17,7 @@ function Login() {
         password
       );
       console.log("User logged in successfully:", userCredential.user);
-      window.location.href = "/";
-      // Add your logic for successful login (e.g., redirect)
+      window.location.href = "/library";
     } catch (error) {
       setError(error.message);
     }
