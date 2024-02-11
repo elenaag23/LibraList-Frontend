@@ -500,3 +500,47 @@ a.article:hover {
     width: 40px;
 }
 
+.col-4{
+    width: 32% !important;
+}
+
+.bookItemWrapper {
+    position: relative;
+}
+
+.bookItemWrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(109, 127, 204, 0.3);
+    /* Change the color and opacity as desired */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.bookItemWrapper:hover::after {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.bookName {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 8px;
+    background-color: rgba(109, 127, 204, 0.7);
+    /* Change the color and opacity as desired */
+    color: white;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.bookItemWrapper:hover .bookName {
+    opacity: 1;
+}
+

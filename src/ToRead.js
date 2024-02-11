@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import "./App.css"; // Assuming this is your custom CSS file
 import "./HomePage.css"; // Assuming this is another custom CSS file
 import Sidebar from "./Sidebar";
-import MenuBookIcon from "@mui/icons-material/MenuBook";
-import LibraryAddCheckIcon from "@mui/icons-material/LibraryAddCheck";
+
 import { Menu } from "@mui/icons-material";
 import { getAuth, currentUser, onAuthStateChanged } from "firebase/auth";
-import { getDatabase, ref, push } from "firebase/database";
+import { getDatabase, ref, push, onValue } from "firebase/database";
+import BookComponent from "./BookComponent";
 
 function ToRead() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,40 +17,7 @@ function ToRead() {
   const [addedBook, setAddedBook] = useState(false);
   const auth = getAuth();
   const db = getDatabase();
-
-  const process = (data) => {
-    for (var book of data["items"]) {
-      if (
-        book["volumeInfo"]["language"] == "en" &&
-        book["volumeInfo"]["imageLinks"] != undefined
-      ) {
-        console.log("carte buna: ", book);
-        var title = book["volumeInfo"]["title"];
-        var author = book["volumeInfo"]["authors"][0];
-        var description = book["volumeInfo"]["description"];
-        var cover = book["volumeInfo"]["imageLinks"]["thumbnail"];
-        setBookData({ title, author, description, cover });
-        break;
-      }
-    }
-  };
-
-  useEffect(() => {
-    // Listen for authentication state changes
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in
-        setCurrentUser(user);
-        console.log("current user: ", user);
-      } else {
-        // No user is signed in
-        setCurrentUser(null);
-      }
-    });
-
-    // Clean up subscription on unmount
-    return () => unsubscribe();
-  }, [auth]);
+  const [userBooks, setUserBooks] = useState([]);
 
   const addBook = async (title, author, description, cover) => {
     try {
@@ -77,42 +44,73 @@ function ToRead() {
     }
   };
 
-  const BookComponent = ({ title, author, description, cover }) => {
-    return (
-      <div>
-        {!addedBook ? (
-          <div
-            className="input-group"
-            style={{ display: "flex", justifyContent: "end" }}
-          >
-            <button
-              className="myIcon"
-              onClick={() => addBook(title, author, description, cover)}
-            >
-              <MenuBookIcon></MenuBookIcon>
-            </button>
-          </div>
-        ) : (
-          <div className="myLibrary input-group">
-            <LibraryAddCheckIcon></LibraryAddCheckIcon>
-          </div>
-        )}
+  const process = (data) => {
+    for (var book of data["items"]) {
+      if (
+        book["volumeInfo"]["language"] == "en" &&
+        book["volumeInfo"]["imageLinks"] != undefined
+      ) {
+        console.log("carte buna: ", book);
+        var title = book["volumeInfo"]["title"];
+        var author = book["volumeInfo"]["authors"][0];
+        var description = book["volumeInfo"]["description"];
+        var cover = book["volumeInfo"]["imageLinks"]["thumbnail"];
+        setBookData({ title, author, description, cover });
 
-        <img src={cover} alt="Book Cover" />
-        <div className="book-details" style={{ marginTop: "28px" }}>
-          <h2>{title}</h2>
-          <p style={{ fontSize: "20px", color: "#6d7fcc" }}>Author: {author}</p>
-          <p style={{ fontSize: "20px", fontWeight: 500, color: "#6d7fcc" }}>
-            {description}
-          </p>
-        </div>
-      </div>
-    );
+        const bookExists = userBooks.some((userBook) => {
+          return userBook.title === title && userBook.author === author;
+        });
+
+        if (bookExists) {
+          console.log("Book already exists in the user's database");
+          setAddedBook(true);
+        } else {
+          setAddedBook(false);
+          console.log("Book does not exist in the user's database");
+        }
+        break;
+      }
+    }
   };
+
+  useEffect(() => {
+    // Listen for authentication state changes
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in
+        setCurrentUser(user);
+        console.log("current user: ", user);
+
+        var uid = user.uid;
+        // Reference to the user's 'books' node
+        const userBooksRef = ref(db, `users/${uid}/books`);
+
+        // Fetch user's books from the database
+        onValue(userBooksRef, (snapshot) => {
+          const booksData = snapshot.val();
+          if (booksData) {
+            // Convert the object of books into an array
+            const booksArray = Object.keys(booksData).map((key) => ({
+              id: key,
+              ...booksData[key],
+            }));
+            setUserBooks(booksArray);
+          } else {
+            setUserBooks([]);
+          }
+        });
+      } else {
+        // No user is signed in
+        setCurrentUser(null);
+      }
+    });
+
+    // Clean up subscription on unmount
+    return () => unsubscribe();
+  }, [auth]);
 
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
-    setAddedBook(false);
   };
 
   const handleSearch = () => {
@@ -183,6 +181,8 @@ function ToRead() {
                 author={bookData.author}
                 description={bookData.description}
                 cover={bookData.cover}
+                addedBook={addedBook}
+                addBook={addBook}
               />
             )}
           </div>
