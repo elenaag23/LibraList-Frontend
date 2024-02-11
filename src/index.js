@@ -11,6 +11,8 @@ const firebaseConfig = {
   projectId: "my-library-30ca5",
   //storageBucket: "YOUR_STORAGE_BUCKET",
   messagingSenderId: "200071864993",
+  databaseURL:
+    "https://my-library-30ca5-default-rtdb.europe-west1.firebasedatabase.app",
   //appId: "YOUR_APP_ID",
 };
 

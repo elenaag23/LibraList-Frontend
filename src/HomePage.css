@@ -476,3 +476,27 @@ a.article:hover {
     color: black;
 }
 
+.myIcon {
+    color: #6d7fcc;
+    border:none;
+    background-color: inherit;
+    float: inline-end;
+    height:40px;
+    width:40px;
+}
+
+.myIcon:hover{
+    background-color: #6d7fcc;
+    color:white;
+    cursor:pointer;
+}
+
+.myLibrary{
+    color: #6d7fcc;
+    border: none;
+    background-color: inherit;
+    float: inline-end;
+    height: 40px;
+    width: 40px;
+}
+
