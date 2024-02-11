@@ -24,6 +24,6 @@ This is an app to help you track your reading. Search for a book, add it to your
 
 # Technologies used
 
-For the development of this project I used React, Bootstrap and Google Books Api for the book search.
+For the development of this project I used React, Bootstrap, Firebase and Google Books Api for the book search.
 
 
